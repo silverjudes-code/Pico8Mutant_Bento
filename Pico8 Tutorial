@@ -1,0 +1,44 @@
+px = 8 //player x position
+py = 8 //player y position
+rice = 0
+
+function _update()
+ input ()
+ move ()
+end
+
+function input ()
+ nx = 0 //following code
+ ny = 0 //is for player movement
+ if (btnp(0)) nx = -1
+ if (btnp(1)) nx =  1
+ if (btnp(2)) ny = -1
+ if (btnp(3)) ny =  1
+end
+
+function move ()
+ if nx == 0 and ny == 0 then
+  return //collision detection for map pieces
+ end
+ npx = px + nx //code will recognie next x/y input instead
+ npy = py + ny
+ if mget(npx,npy) == 0 then //m is map, get is get something from the map
+ //pulling info from the map regarding where the playuer wants to move
+ //map tiles with sprites is 0
+ px += nx
+ py += ny
+ elseif mget(npx,npy) == 25 then //25 is sprite number
+ mset(npx,npy,0)//0 means mushroom will disappear when player collides
+ rice += 1 //will record when mushrooms are collected
+ px += nx
+ py += ny
+ end
+end
+
+function _draw()
+ cls(12) //clear screen
+	map() //draw map
+	spr(1,px*8,py*8,2,2) //draw sprite
+	//last values add extra sprite blocks
+ print(rice,1,1,7)	//7 = color
+end
